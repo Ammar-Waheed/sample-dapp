@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { createContext, useState } from "react"
+import MetamaskConnect from './view/components/molecules/MetamaskConnect'
+import NftContainer from "./view/components/organisms/NftContainer"
+import { StyledEngineProvider } from "@mui/material/styles"
+import "./styles/App.css"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface context {
+    walletAddress: string
+    setWalletAddress: any
+    setNetwork: any
+    network: number
 }
 
-export default App;
+export const WalletContext = createContext<context>({
+    walletAddress: "",
+    setWalletAddress: () => {},
+    setNetwork: () => {},
+    network: NaN
+})
+
+const App = (): JSX.Element => {
+    const [walletAddress, setWalletAddress] = useState<string>("")
+    const [network, setNetwork] = useState<number>(NaN)
+
+    return (
+        <div className="App">
+            <WalletContext.Provider
+                value={{ walletAddress, setWalletAddress, setNetwork, network }}
+            >
+                <StyledEngineProvider injectFirst>
+                    <MetamaskConnect />
+                    <NftContainer/>
+                </StyledEngineProvider>
+            </WalletContext.Provider>
+        </div>
+    )
+}
+
+export default App
