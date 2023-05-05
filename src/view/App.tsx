@@ -1,8 +1,12 @@
 import { createContext, useState } from "react"
-import MetamaskConnect from './view/components/molecules/MetamaskConnect'
-import NftContainer from "./view/components/organisms/NftContainer"
+import MetamaskConnect from "./components/molecules/MetamaskConnect"
+import NftContainer from "./components/organisms/NftContainer"
 import { StyledEngineProvider } from "@mui/material/styles"
-import "./styles/App.css"
+import Box from "@mui/material/Box"
+import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material/styles"
+import { ThemeProvider } from "@mui/material/styles"
+import theme from "./theme"
+import "./App.css"
 
 interface context {
     walletAddress: string
@@ -22,17 +26,28 @@ const App = (): JSX.Element => {
     const [walletAddress, setWalletAddress] = useState<string>("")
     const [network, setNetwork] = useState<number>(NaN)
 
+    const App = {
+        textAlign: "center",
+        minHeight: "100vh",
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
+    }
+
     return (
-        <div className="App">
+        <Box sx={App}>
             <WalletContext.Provider
                 value={{ walletAddress, setWalletAddress, setNetwork, network }}
             >
                 <StyledEngineProvider injectFirst>
-                    <MetamaskConnect />
-                    <NftContainer/>
+                    <ThemeProvider theme={theme}>
+                        <MetamaskConnect />
+                        <NftContainer />
+                    </ThemeProvider>
                 </StyledEngineProvider>
             </WalletContext.Provider>
-        </div>
+        </Box>
     )
 }
 

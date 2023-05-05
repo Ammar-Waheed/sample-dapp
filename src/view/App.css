@@ -1,0 +1,32 @@
+body{
+  background-color: #191c1f;
+}
+
+.MuiButton-root {
+    background-color: #feda03;
+    color: black;
+    border-radius: 10px;
+    height: 60px;
+    min-width: 10vw;
+    padding-left: 10%;
+    padding-right: 10%;
+    font-weight: bold;
+    margin-top: 2vw;
+    margin-bottom: 3vw;
+}
+
+.MuiButton-root:hover{
+    background-color: #feda03;
+    box-shadow: 0px 5px 10px rgb(255, 231, 94);
+}
+
+.MuiCard-root{
+    cursor: pointer;
+    border-radius: 20px;
+    background-color: #2e2f30;
+    width:30%
+}
+
+.MuiCardContent-root{
+    padding: 10%;
+}
