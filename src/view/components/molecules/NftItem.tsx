@@ -1,8 +1,4 @@
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
-import CardMedia from "@mui/material/CardMedia"
-import Typography from "@mui/material/Typography"
-import { CardActionArea } from "@mui/material"
+import "../../../styles/nft.css"
 
 interface Props {
     media: string
@@ -21,11 +17,11 @@ interface Props {
 
 const NftItem: React.FC<Props> = (props): JSX.Element => {
     return (
-        <Card>
-            <CardActionArea>
-                <CardMedia
-                    component="img"
-                    image={props.media}
+        <>
+            <div className="card">
+                <img
+                    className="card-img-top"
+                    src={props.media}
                     alt={props.title}
                     onClick={() =>
                         props.modalOpener(
@@ -36,17 +32,12 @@ const NftItem: React.FC<Props> = (props): JSX.Element => {
                             props.address
                         )
                     }
-                ></CardMedia>
-                <CardContent>
-                    <Typography
-                        variant="h5"
-                        sx={{ color: "#feda03", fontSize: "1.5rem" }}
-                    >
-                        {props.title}
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
-        </Card>
+                ></img>
+                <div className="card-body">
+                    <h5 className="card-title">{props.title}</h5>
+                </div>
+            </div>
+        </>
     )
 }
 

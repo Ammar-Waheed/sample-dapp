@@ -1,8 +1,9 @@
 import { useEffect, useContext, useMemo } from "react"
 import { providerGen } from "../../../utils/GetProvider"
 import { getAccounts } from "../../../utils/WalletConnector"
-import Btn from "../atoms/Btn"
-import { WalletContext } from "../../App"
+import ConnectBtn from "../atoms/ConnectBtn"
+import DisconnectBtn from "../atoms/DisconnectBtn"
+import { WalletContext } from "../../../App"
 
 const MetamaskConnect = (): JSX.Element => {
     const { walletAddress, setWalletAddress, setNetwork } =
@@ -47,9 +48,12 @@ const MetamaskConnect = (): JSX.Element => {
     return (
         <header>
             {walletAddress ? (
-                <Btn click={onClickDisconnect} text={`Account : ${walletAddress}`} />
+                <ConnectBtn
+                    disconnect={onClickDisconnect}
+                    walletAddress={walletAddress}
+                />
             ) : (
-                <Btn click={onClickConnect} text="connect metamask" />
+                <DisconnectBtn connect={onClickConnect} />
             )}
         </header>
     )
