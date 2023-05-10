@@ -4,7 +4,7 @@ import { Network } from "alchemy-sdk"
 import { getAlchemy } from "../../../utils/alchemy"
 import NftItem from "../molecules/NftItem"
 import NftModal from "../molecules/NftModal"
-import Box from "@mui/material/Box"
+import Container from '../atoms/Container'
 
 const NftContainer = (): JSX.Element => {
     const wallet = useContext(WalletContext)
@@ -26,8 +26,6 @@ const NftContainer = (): JSX.Element => {
                 const nftsForOwner = await alchemy.nft.getNftsForOwner(
                     wallet.walletAddress
                 )
-                console.log("number of NFTs found:", nftsForOwner.totalCount)
-                console.log(nftsForOwner.ownedNfts)
                 setOnwnedNfts(nftsForOwner.ownedNfts)
             } else {
                 setOnwnedNfts([])
@@ -35,23 +33,6 @@ const NftContainer = (): JSX.Element => {
         }
         loadNFTs()
     }, [wallet.walletAddress]) //load NFTs everytime the wallet address changes
-
-    const nftWrapper = {
-        backgroundColor: "#222528",
-        display: "flex",
-        flexWrap: "wrap",
-        rowGap: "30px",
-        columnGap: "40px",
-        minHeight: "45%",
-        width: "55%",
-        border: "2px solid black",
-        paddingBottom: "3vh",
-        paddingTop: "3vh",
-        paddingLeft: "3vw",
-        paddingRight: "3vw",
-        borderRadius: "20px",
-        marginBottom: "10%"
-    }
 
     const openModal = (
         title: string,
@@ -73,8 +54,8 @@ const NftContainer = (): JSX.Element => {
     }
 
     return (
-        <Box sx={nftWrapper}>
-            {ownedNfts.map((item: any) => (
+        <Container variant="simple">
+            {ownedNfts.map((item) => (
                 <NftItem
                     key={`${item.tokenId}/${item.contract.address}`}
                     media={item.media[0].gateway}
@@ -94,7 +75,7 @@ const NftContainer = (): JSX.Element => {
                 open={open}
                 closer={closeModal}
             />
-        </Box>
+        </Container>
     )
 }
 

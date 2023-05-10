@@ -1,8 +1,10 @@
 import Box from "@mui/material/Box"
 import Modal from "@mui/material/Modal"
 import Typography from "@mui/material/Typography"
-import Btn from "../atoms/Btn"
+import Button from "@mui/material/Button"
 import styles from "../../../styles/modal.module.css"
+import Link from "@mui/material/Link"
+import Container from "../atoms/Container"
 
 interface Props {
     img: string
@@ -15,24 +17,6 @@ interface Props {
 }
 
 const NftModal: React.FC<Props> = (props): JSX.Element => {
-    const modalBody = {
-        backgroundColor: "#1b202c",
-        height: "80vh",
-        width: "70vw",
-        display: "inline-block",
-        borderRadius: "30px",
-        overflow: "hidden"
-    }
-
-    const nftData = {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        textAlign: "start",
-        color: "#feda03",
-        padding: "2% 5%"
-    }
-
     const popup = {
         display: "flex",
         justifyContent: "center",
@@ -47,43 +31,48 @@ const NftModal: React.FC<Props> = (props): JSX.Element => {
             aria-describedby="modal-modal-description"
             sx={popup}
         >
-            <Box sx={modalBody}>
+            <Container variant="modal">
                 <img
                     className={styles.heroImg}
                     src={props.img}
                     alt={props.title}
                 />
-                <Box sx={nftData}>
+                <Box
+                    display={"flex"}
+                    flexDirection={"column"}
+                    alignItems={"center"}
+                    color={"#feda03"}
+                    padding={"2% 5%"}
+                >
                     <Typography
                         variant="h3"
-                        sx={{ fontWeight: "bold" }}
                         gutterBottom
                     >
                         {props.title} #{props?.id}
                     </Typography>
-                    <Box>
+                    <Box textAlign={"start"} alignSelf={"start"}>
                         <Typography variant="h5">Description</Typography>
                         <Typography
                             variant="body1"
-                            sx={{ color: "rgb(255, 246, 194)" }}
                             gutterBottom
                         >
                             {props.description.length
                                 ? props.description
-                                : `Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit`}
+                                : "No content Found!"}
                         </Typography>
                     </Box>
-                    <Btn
-                        text="Purchase on Opensea"
-                        link={`${process.env.REACT_APP_OSLINK}${props.address}/${props.id}`}
-                    />
+                    <Button variant="contained" color="primary">
+                        <Link
+                            href={`${process.env.REACT_APP_OSLINK}${props.address}/${props.id}`}
+                            target="_blank"
+                            color="inherit"
+                            underline="none"
+                        >
+                            purchase on opensea
+                        </Link>
+                    </Button>
                 </Box>
-            </Box>
+            </Container>
         </Modal>
     )
 }

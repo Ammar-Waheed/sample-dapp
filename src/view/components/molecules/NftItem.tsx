@@ -40,7 +40,6 @@ const NftItem: React.FC<Props> = (props): JSX.Element => {
                 <CardContent>
                     <Typography
                         variant="h5"
-                        sx={{ color: "#feda03", fontSize: "1.5rem" }}
                     >
                         {props.title}
                     </Typography>
