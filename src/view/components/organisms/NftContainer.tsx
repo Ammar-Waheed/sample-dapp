@@ -1,10 +1,10 @@
 import { useContext, useState, useEffect, useMemo } from "react"
-import { WalletContext } from "../../../App"
+import { WalletContext } from "../../App"
 import { Network } from "alchemy-sdk"
 import { getAlchemy } from "../../../utils/alchemy"
 import NftItem from "../molecules/NftItem"
 import NftModal from "../molecules/NftModal"
-import "../../../styles/nft.css"
+import Container from '../atoms/Container'
 
 const NftContainer = (): JSX.Element => {
     const wallet = useContext(WalletContext)
@@ -23,10 +23,12 @@ const NftContainer = (): JSX.Element => {
         const loadNFTs = async () => {
             if (wallet.walletAddress) {
                 //do not try to fetch if undefined
-                const nftsForOwner = await alchemy.nft.getNftsForOwner(wallet.walletAddress)
-                console.log("number of NFTs found:", nftsForOwner.totalCount)
-                console.log(nftsForOwner.ownedNfts)
+                const nftsForOwner = await alchemy.nft.getNftsForOwner(
+                    wallet.walletAddress
+                )
                 setOnwnedNfts(nftsForOwner.ownedNfts)
+            } else {
+                setOnwnedNfts([])
             }
         }
         loadNFTs()
@@ -52,9 +54,10 @@ const NftContainer = (): JSX.Element => {
     }
 
     return (
-        <div className="container nftWrapper">
-            {ownedNfts.map((item: any) => (
+        <Container variant="simple">
+            {ownedNfts.map((item) => (
                 <NftItem
+                    key={`${item.tokenId}/${item.contract.address}`}
                     media={item.media[0].gateway}
                     title={item.title}
                     description={item.description}
@@ -63,18 +66,16 @@ const NftContainer = (): JSX.Element => {
                     modalOpener={openModal}
                 />
             ))}
-            <div className="modal">
-                <NftModal
-                    title={title}
-                    id={id}
-                    description={description}
-                    img={img}
-                    address={address}
-                    open={open}
-                    closer={closeModal}
-                />
-            </div>
-        </div>
+            <NftModal
+                title={title}
+                id={id}
+                description={description}
+                img={img}
+                address={address}
+                open={open}
+                closer={closeModal}
+            />
+        </Container>
     )
 }
 

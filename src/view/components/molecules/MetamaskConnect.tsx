@@ -1,9 +1,9 @@
 import { useEffect, useContext, useMemo } from "react"
 import { providerGen } from "../../../utils/GetProvider"
 import { getAccounts } from "../../../utils/WalletConnector"
-import ConnectBtn from "../atoms/ConnectBtn"
-import DisconnectBtn from "../atoms/DisconnectBtn"
-import { WalletContext } from "../../../App"
+import { WalletContext } from "../../App"
+import Button from "@mui/material/Button"
+import log from "loglevel"
 
 const MetamaskConnect = (): JSX.Element => {
     const { walletAddress, setWalletAddress, setNetwork } =
@@ -20,15 +20,17 @@ const MetamaskConnect = (): JSX.Element => {
             if (accounts.length > 0) {
                 setWalletAddress(accounts[0])
             }
-            setNetwork(net?.chainId)
-            console.log("chain", net?.chainId)
+            if (typeof net?.chainId === "number") {
+                setNetwork(net?.chainId)
+            }
+            log.trace("chain", net?.chainId)
         }
         loadConnectedWallet()
     }, [])
 
     const onClickConnect = async () => {
         if (!window.ethereum) {
-            console.log("please install MetaMask")
+            alert("please install MetaMask")
             return
         }
         const net = await provider?.getNetwork()
@@ -37,23 +39,34 @@ const MetamaskConnect = (): JSX.Element => {
             .then((accounts: string[]) => {
                 if (accounts.length > 0) setWalletAddress(accounts[0])
             })
-            .catch((e: any) => console.log(e))
-        setNetwork(net?.chainId)
+            .catch((e: any) => log.error(e))
+        if (typeof net?.chainId === "number") {
+            setNetwork(net?.chainId)
+        }
     }
 
     const onClickDisconnect = () => {
-        setWalletAddress(undefined)
+        setWalletAddress("")
     }
 
     return (
         <header>
-            {walletAddress ? (
-                <ConnectBtn
-                    disconnect={onClickDisconnect}
-                    walletAddress={walletAddress}
-                />
+            {walletAddress !== "" ? (
+                <Button
+                    onClick={onClickDisconnect}
+                    variant="contained"
+                    color="primary"
+                >
+                    Account: {walletAddress}
+                </Button>
             ) : (
-                <DisconnectBtn connect={onClickConnect} />
+                <Button
+                    onClick={onClickConnect}
+                    variant="contained"
+                    color="primary"
+                >
+                    connect metamask
+                </Button>
             )}
         </header>
     )
